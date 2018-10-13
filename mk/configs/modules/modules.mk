@@ -87,7 +87,11 @@ REF_MODULES := \
 	Ref/RecvBuffApp \
 	Ref/SendBuffApp \
 	Ref/SignalGen \
-	Ref/PingReceiver
+	Ref/PingReceiver \
+	Ref/MathPorts \
+	Ref/MathTypes \
+	Ref/MathSender \
+	Ref/MathReceiver
 	
 Ref_MODULES := \
 	\
@@ -104,6 +108,34 @@ Ref_MODULES := \
 	$(CFDP_MODULES) \
   	\
   	$(UTILS_MODULES)
+
+HELLOWORLD_MODULES := \
+	HelloWorld/Top \
+	HelloWorld/RecvBuffApp \
+	HelloWorld/SendBuffApp \
+	HelloWorld/SignalGen \
+	HelloWorld/PingReceiver \
+	HelloWorld/HelloPorts \
+	HelloWorld/HelloTypes \
+	HelloWorld/HelloSender \
+	HelloWorld/HelloReceiver
+	
+HelloWorld_MODULES := \
+	\
+	$(HELLOWORLD_MODULES) \
+	\
+	$(SVC_MODULES) \
+	\
+	$(DEMO_DRV_MODULES) \
+	\
+	$(FW_MODULES) \
+	\
+	$(OS_MODULES) \
+	\
+	$(CFDP_MODULES) \
+  	\
+  	$(UTILS_MODULES)
+
 		
 ACDEVTEST_MODULES := \
 	Autocoders/test/active_tester \
@@ -203,7 +235,7 @@ OTHER_MODULES := \
 
 # List deployments
 
-DEPLOYMENTS := Ref acdev RPI
+DEPLOYMENTS := Ref acdev RPI HelloWorld
 
 # Location of ground/gse software. Autocoded dictionary elements are copied here.
 GDS_MODULE := Gse
