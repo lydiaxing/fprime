@@ -2,21 +2,25 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+
 extern "C" {
     void startTestTask(int iters);
-    void qtest_block_receive(void);
-    void qtest_nonblock_receive(void);
-    void qtest_nonblock_send(void);
-    void qtest_block_send(void);
-    void qtest_performance(void);
-    void qtest_concurrent(void);
-    void intervalTimerTest(void);
+    void qtest_block_receive(void *p);
+    void qtest_nonblock_receive(void *p);
+    void qtest_nonblock_send(void *p);
+    void qtest_block_send(void *p);
+    void qtest_performance(void *p);
+    void qtest_concurrent(void *p);
+    void intervalTimerTest(void *p);
     void fileSystemTest(void);
     void validateFileTest(void);
 }
 
 int main(int argc, char* argv[]) {
-    
+
         if( argc != 2 ) {
            fprintf(stderr, "Run test with test number as argument!\n");
            exit(1);
@@ -27,28 +31,43 @@ int main(int argc, char* argv[]) {
 	switch(testNum) {
 		case 0:
 			startTestTask(10);
-			sleep(15);
+            vTaskStartScheduler();
+			// sleep(15);
 			break;
 		case 1:
-			qtest_block_receive();
+        xTaskCreate(qtest_block_receive, (const char*) "qtest_block_receive", 2048, 0, 1, 0);
+        vTaskStartScheduler();
+			// qtest_block_receive();
 			break;
 		case 2:
-			qtest_nonblock_receive();
+            xTaskCreate(qtest_nonblock_receive, (const char*) "qtest_nonblock_receive", 2048, 0, 1, 0);
+            vTaskStartScheduler();
+			// qtest_nonblock_receive();
 			break;
                 case 3:
-                        qtest_nonblock_send();
+                        xTaskCreate(qtest_nonblock_send, (const char*) "qtest_nonblock_send", 2048, 0, 1, 0);
+                        vTaskStartScheduler();
+                        // qtest_nonblock_send();
                         break;
                 case 4:
-                        qtest_block_send();
+                        xTaskCreate(qtest_block_send, (const char*) "qtest_block_send", 2048, 0, 1, 0);
+                        vTaskStartScheduler();
+                        // qtest_block_send();
                         break;
 		case 5:
-			qtest_performance();
+            xTaskCreate(qtest_performance, (const char*) "qtest_performance", 2048, 0, 1, 0);
+            vTaskStartScheduler();
+			// qtest_performance();
 			break;
                 case 6:
-                        qtest_concurrent();
+                        xTaskCreate(qtest_concurrent, (const char*) "qtest_concurrent", 2048, 0, 1, 0);
+                        vTaskStartScheduler();
+                        // qtest_concurrent();
                         break;
 		case 7:
-			intervalTimerTest();
+            xTaskCreate(intervalTimerTest, (const char*) "intervalTimerTest", 2048, 0, 1, 0);
+            vTaskStartScheduler();
+			// intervalTimerTest();
 			break;
 		case 8:
 			fileSystemTest();
@@ -60,7 +79,7 @@ int main(int argc, char* argv[]) {
 			printf("Huh? %d\n", testNum);
 			break;
 	}
-	
+
     return 0;
 }
 

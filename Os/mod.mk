@@ -17,9 +17,9 @@ SRC = 			TaskCommon.cpp \
 				QueueString.cpp \
 				SimpleQueueRegistry.cpp \
 				MemCommon.cpp \
-				ValidateFileCommon.cpp 
+				ValidateFileCommon.cpp
 
-HDR = 			Queue.hpp \
+HDR = 			FreeRTOS/Queue.hpp \
 				QueueString.hpp \
 				SimpleQueueRegistry.hpp \
 				Task.hpp \
@@ -32,33 +32,75 @@ HDR = 			Queue.hpp \
 				ValidateFile.hpp \
 				FileSystem.hpp
 
-SRC_LINUX=      Pthreads/Queue.cpp \
-               	Pthreads/BufferQueueCommon.cpp \
-                Pthreads/PriorityBufferQueue.cpp \
-                Pthreads/MaxHeap/MaxHeap.cpp \
-				Linux/File.cpp \
-				Posix/Task.cpp \
-				LogPrintf.cpp \
-				Linux/InterruptLock.cpp \
-				Linux/WatchdogTimer.cpp \
-				X86/IntervalTimer.cpp \
-				Linux/IntervalTimer.cpp \
-				Posix/Mutex.cpp \
-				Linux/FileSystem.cpp
 
-SRC_DARWIN =    Pthreads/Queue.cpp \
-                Pthreads/BufferQueueCommon.cpp \
-                Pthreads/PriorityBufferQueue.cpp \
-                Pthreads/MaxHeap/MaxHeap.cpp \
+SRC_FREERTOS_SIM =  FreeRTOS/assert.c \
+					FreeRTOS/FreeRTOS-Sim/Source/portable/GCC/POSIX/port.c \
+					FreeRTOS/FreeRTOS-Sim/Source/event_groups.c \
+					FreeRTOS/FreeRTOS-Sim/Source/list.c \
+					FreeRTOS/FreeRTOS-Sim/Source/queue.c \
+					FreeRTOS/FreeRTOS-Sim/Source/tasks.c \
+					FreeRTOS/FreeRTOS-Sim/Source/timers.c \
+					FreeRTOS/FreeRTOS-Sim/Source/portable/MemMang/heap_2.c \
+					FreeRTOS/FreeRTOS-Sim/Source/croutine.c \
+					FreeRTOS/FreeRTOS-Sim/Source/stream_buffer.c \
+					FreeRTOS/Queue.cpp \
+					FreeRTOS/Mutex.cpp \
+					FreeRTOS/Task.cpp \
+ 					FreeRTOS/IntervalTimer.cpp \
+					Linux/File.cpp \
+					LogPrintf.cpp \
+					Linux/WatchdogTimer.cpp \
+					Linux/InterruptLock.cpp \
+					Posix/Mutex.cpp \
+					Linux/FileSystem.cpp \
+					Linux/File.cpp
+
+SRC_LINUX=      FreeRTOS/assert.c \
+				FreeRTOS/FreeRTOS-Sim/Source/portable/GCC/POSIX/port.c \
+				FreeRTOS/FreeRTOS-Sim/Source/event_groups.c \
+				FreeRTOS/FreeRTOS-Sim/Source/list.c \
+				FreeRTOS/FreeRTOS-Sim/Source/queue.c \
+				FreeRTOS/FreeRTOS-Sim/Source/tasks.c \
+				FreeRTOS/FreeRTOS-Sim/Source/timers.c \
+				FreeRTOS/FreeRTOS-Sim/Source/portable/MemMang/heap_2.c \
+				FreeRTOS/FreeRTOS-Sim/Source/croutine.c \
+				FreeRTOS/FreeRTOS-Sim/Source/stream_buffer.c \
+				FreeRTOS/Queue.cpp \
+				FreeRTOS/Mutex.cpp \
+				FreeRTOS/Task.cpp \
+ 				FreeRTOS/IntervalTimer.cpp \
 				Linux/File.cpp \
-				Posix/Task.cpp \
 				LogPrintf.cpp \
 				Linux/WatchdogTimer.cpp \
 				Linux/InterruptLock.cpp \
-				X86/IntervalTimer.cpp \
-				MacOs/IntervalTimer.cpp \
+				# MacOs/IntervalTimer.cpp
 				Posix/Mutex.cpp \
-				Linux/FileSystem.cpp
+				Linux/FileSystem.cpp \
+				# #FreeRTOS/IntervalTimer.cpp
+				# Posix/Task.cpp \
+				Linux/File.cpp
+				# LogPrintf.cpp \
+				# Linux/InterruptLock.cpp \
+				# Linux/WatchdogTimer.cpp \
+				# #X86/IntervalTimer.cpp \
+				# #Linux/IntervalTimer.cpp
+				#
+				# #Posix/Mutex.cpp \
+
+
+# #SRC_DARWIN =    Pthreads/Queue.cpp \
+#                 Pthreads/BufferQueueCommon.cpp \
+#                 Pthreads/PriorityBufferQueue.cpp \
+#                 Pthreads/MaxHeap/MaxHeap.cpp \
+# 				Linux/File.cpp \
+# 				Posix/Task.cpp \
+# 				LogPrintf.cpp \
+# 				Linux/WatchdogTimer.cpp \
+# 				Linux/InterruptLock.cpp \
+# 				X86/IntervalTimer.cpp \
+# 				MacOs/IntervalTimer.cpp \
+# 				Posix/Mutex.cpp \
+# 				Linux/FileSystem.cpp
 
 SRC_CYGWIN =    Pthreads/Queue.cpp \
                	Pthreads/BufferQueueCommon.cpp \
@@ -73,7 +115,7 @@ SRC_CYGWIN =    Pthreads/Queue.cpp \
 				Linux/IntervalTimer.cpp \
 				Posix/Mutex.cpp \
 				Linux/FileSystem.cpp
-				
+
 SRC_RASPIAN =   Pthreads/Queue.cpp \
                	Pthreads/BufferQueueCommon.cpp \
                 Pthreads/PriorityBufferQueue.cpp \
@@ -88,7 +130,7 @@ SRC_RASPIAN =   Pthreads/Queue.cpp \
 				Posix/Mutex.cpp \
 				Linux/FileSystem.cpp
 
-				
+
 
 
 SUBDIRS = test
@@ -104,4 +146,3 @@ SUBDIRS = test
 #        Pthreads/Queue.cpp \
 #        Pthreads/BufferQueueCommon.cpp \
 #        Pthreads/FIFOBufferQueue.cpp \
-

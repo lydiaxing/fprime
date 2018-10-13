@@ -7,16 +7,16 @@
 #include <signal.h>
 #include <pthread.h>
 
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
 #include <time.h>
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
 #include <sys/time.h>
 #endif
 
 // Set this to 1 if testing a priority queue
 // Set this to 0 if testing a fifo queue
-#define PRIORITY_QUEUE 1
+#define PRIORITY_QUEUE 0
 
 enum {
         SER_BUFFER_SIZE = 100,
@@ -118,12 +118,12 @@ void drainQueue(Os::Queue* queue) {
 }
 
 extern "C" {
-    void qtest_block_receive(void);
-    void qtest_nonblock_receive(void);
-    void qtest_performance(void);
-    void qtest_nonblock_send(void);
-    void qtest_block_send(void);
-    void qtest_concurrent(void);
+    void qtest_block_receive(void *p);
+    void qtest_nonblock_receive(void *p);
+    void qtest_performance(void *p);
+    void qtest_nonblock_send(void *p);
+    void qtest_block_send(void *p);
+    void qtest_concurrent(void *p);
 }
 
 // Alarm signal handler for waking up a blocked queue:
@@ -171,7 +171,7 @@ void alarm_error(int sig)
 
 // This test verifies queue behavior for active components
 // ie. non-blocking send on queue full, blocking receive on queue empty
-void qtest_nonblock_send(void) {
+void qtest_nonblock_send(void *p) {
     printf("-----------------------------\n");
     printf("-- nonblocking send test ----\n");
     printf("-----------------------------\n");
@@ -199,9 +199,10 @@ void qtest_nonblock_send(void) {
     printf("Test complete.\n");
     printf("-----------------------------\n");
     printf("-----------------------------\n");
+    while (1);
 }
 
-void qtest_block_send(void) {
+void qtest_block_send(void *p) {
     printf("-----------------------------\n");
     printf("---- blocking send test -----\n");
     printf("-----------------------------\n");
@@ -245,11 +246,12 @@ void qtest_block_send(void) {
     printf("Test complete.\n");
     printf("-----------------------------\n");
     printf("-----------------------------\n");
+    while (1);
 }
 
 // This test verifies queue behavior for active components
 // ie. non-blocking send on queue full, blocking receive on queue empty
-void qtest_block_receive(void) {
+void qtest_block_receive(void *p) {
     printf("-----------------------------\n");
     printf("-- blocking receive test ----\n");
     printf("-----------------------------\n");
@@ -325,11 +327,13 @@ void qtest_block_receive(void) {
     printf("Test complete.\n");
     printf("-----------------------------\n");
     printf("-----------------------------\n");
+    while (1);
+    while (1);
 }
 
 // This test verifies queue behavior for queued components
 // ie. non-blocking send on queue full, non-blocking receive on queue empty
-void qtest_nonblock_receive(void) {
+void qtest_nonblock_receive(void *p) {
     printf("-----------------------------\n");
     printf("- nonblocking receive test --\n");
     printf("-----------------------------\n");
@@ -389,10 +393,11 @@ void qtest_nonblock_receive(void) {
     printf("Test complete.\n");
     printf("-----------------------------\n");
     printf("-----------------------------\n");
+    while (1);
 }
 
 // This test shows the performance of the queue:
-void qtest_performance(void) {
+void qtest_performance(void *p) {
     printf("-----------------------------\n");
     printf("---- performance test -------\n");
     printf("-----------------------------\n");
@@ -404,21 +409,21 @@ void qtest_performance(void) {
     F64 elapsedTime;
     I32 numIterations;
 
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     timespec stime;
     timespec etime;
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     timeval stime;
     timeval etime;
 #endif
 
     // TEST 1
     printf("Testing shallow queue...\n");
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     (void)clock_gettime(CLOCK_REALTIME,&stime);
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     (void)gettimeofday(&stime,0);
 #endif
     numIterations = 1000000;
@@ -436,12 +441,12 @@ void qtest_performance(void) {
       stat = testQueue->receive(recvBuff, prio, Os::Queue::QUEUE_NONBLOCKING);
       FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
     }
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     (void)clock_gettime(CLOCK_REALTIME,&etime);
     elapsedTime = ((F64)(etime.tv_sec - stime.tv_sec)) + ((F64)(etime.tv_nsec - stime.tv_nsec))/1000000000;
     printf("Time: %0.3fs (%0.3fus per)\n", elapsedTime, 1000000*elapsedTime/(F64) numIterations);
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     (void)gettimeofday(&etime,0);
     elapsedTime = ((F64)(etime.tv_sec - stime.tv_sec)) + ((F64)(etime.tv_usec - stime.tv_usec))/1000000;
     printf("Time: %0.3fs (%0.3fus per)\n", elapsedTime, 1000000*elapsedTime/(F64) numIterations);
@@ -457,10 +462,10 @@ void qtest_performance(void) {
       if(stat == Os::Queue::QUEUE_FULL)
         break;
     }
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     (void)clock_gettime(CLOCK_REALTIME,&stime);
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     (void)gettimeofday(&stime,0);
 #endif
     numIterations = 1000000;
@@ -478,12 +483,12 @@ void qtest_performance(void) {
       stat = testQueue->send(sendBuff, ii%4, Os::Queue::QUEUE_NONBLOCKING);
       FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
     }
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     (void)clock_gettime(CLOCK_REALTIME,&etime);
     elapsedTime = ((F64)(etime.tv_sec - stime.tv_sec)) + ((F64)(etime.tv_nsec - stime.tv_nsec))/1000000000;
     printf("Time: %0.3fs (%0.3fus per)\n", elapsedTime, 1000000*elapsedTime/(F64) numIterations);
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     (void)gettimeofday(&etime,0);
     elapsedTime = ((F64)(etime.tv_sec - stime.tv_sec)) + ((F64)(etime.tv_usec - stime.tv_usec))/1000000;
     printf("Time: %0.3fs (%0.3fus per)\n", elapsedTime, 1000000*elapsedTime/(F64) numIterations);
@@ -498,6 +503,7 @@ void qtest_performance(void) {
     printf("Test complete.\n");
     printf("-----------------------------\n");
     printf("-----------------------------\n");
+    while (1);
 }
 
 #define NUM_THREADS 4
@@ -527,7 +533,7 @@ void *run_task(void *ptr)
 }
 
 // This test shows the concurrent performance of the queue:
-void qtest_concurrent(void) {
+void qtest_concurrent(void *p) {
 
     printf("---------------------\n");
     printf("-- concurrent test --\n");
@@ -538,11 +544,11 @@ void qtest_concurrent(void) {
     MyTestSerializedBuffer sendBuff = getSendBuffer(0);
     F64 elapsedTime;
 
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     timespec stime;
     timespec etime;
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     timeval stime;
     timeval etime;
 #endif
@@ -556,10 +562,10 @@ void qtest_concurrent(void) {
       if(stat == Os::Queue::QUEUE_FULL)
         break;
     }
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     (void)clock_gettime(CLOCK_REALTIME,&stime);
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     (void)gettimeofday(&stime,0);
 #endif
 
@@ -571,20 +577,20 @@ void qtest_concurrent(void) {
         FW_ASSERT(0);
       }
     }
-    
+
     for(U32 ii = 0; ii < NUM_THREADS; ++ii) {
       if(pthread_join(thread[ii], NULL)) {
-        FW_ASSERT(0);      
+        FW_ASSERT(0);
       }
     }
 #endif
 
-#if defined TGT_OS_TYPE_LINUX         
+#if defined TGT_OS_TYPE_LINUX
     (void)clock_gettime(CLOCK_REALTIME,&etime);
     elapsedTime = ((F64)(etime.tv_sec - stime.tv_sec)) + ((F64)(etime.tv_nsec - stime.tv_nsec))/1000000000;
     printf("Time: %0.3fs (%0.3fus per)\n", elapsedTime, 1000000*elapsedTime/(F64) numIterations);
 #endif
-#if defined TGT_OS_TYPE_DARWIN    
+#if defined TGT_OS_TYPE_DARWIN
     (void)gettimeofday(&etime,0);
     elapsedTime = ((F64)(etime.tv_sec - stime.tv_sec)) + ((F64)(etime.tv_usec - stime.tv_usec))/1000000;
     printf("Time: %0.3fs (%0.3fus per)\n", elapsedTime, 1000000*elapsedTime/(F64) numIterations);
@@ -594,4 +600,5 @@ void qtest_concurrent(void) {
     printf("Test complete.\n");
     printf("---------------------\n");
     printf("---------------------\n");
+    while (1);
 }
