@@ -1,9 +1,9 @@
 HOST = $(shell uname -s)
 ifeq ("$(HOST)","Darwin")
-    include $(BUILD_ROOT)/mk/configs/compiler/darwin_llvm_common.mk
+include $(BUILD_ROOT)/mk/configs/compiler/darwin_llvm_common.mk
 endif
 ifeq ("$(HOST)","Linux")
-    include $(BUILD_ROOT)/mk/configs/compiler/linux_gnu_common.mk
+include $(BUILD_ROOT)/mk/configs/compiler/linux_gnu_common.mk
 endif
 include $(BUILD_ROOT)/mk/configs/compiler/include_common.mk
 include $(BUILD_ROOT)/mk/configs/compiler/freertos_sim_common.mk
