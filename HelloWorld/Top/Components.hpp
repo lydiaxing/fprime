@@ -21,10 +21,10 @@ void exitTasks(void);
 
 #include <Svc/SocketGndIf/SvcSocketGndIfImpl.hpp>
 
-#include <Ref/RecvBuffApp/RecvBuffComponentImpl.hpp>
-#include <Ref/SendBuffApp/SendBuffComponentImpl.hpp>
-#include <Ref/PingReceiver/PingReceiverComponentImpl.hpp>
-#include <Ref/SignalGen/SignalGen.hpp>
+#include <HelloWorld/RecvBuffApp/RecvBuffComponentImpl.hpp>
+#include <HelloWorld/SendBuffApp/SendBuffComponentImpl.hpp>
+#include <HelloWorld/PingReceiver/PingReceiverComponentImpl.hpp>
+#include <HelloWorld/SignalGen/SignalGen.hpp>
 #include <Svc/AssertFatalAdapter/AssertFatalAdapterComponentImpl.hpp>
 #include <Svc/FatalHandler/FatalHandlerComponentImpl.hpp>
 #include <Drv/BlockDriver/BlockDriverImpl.hpp>

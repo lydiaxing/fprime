@@ -19,7 +19,7 @@
 
 #include <Fw/Types/Assert.hpp>
 #include <Fw/Types/SerialBuffer.hpp>
-#include <Ref/SignalGen/SignalGen.hpp>
+#include <HelloWorld/SignalGen/SignalGen.hpp>
 #include <Utils/Hash/Hash.hpp>
 #include <algorithm>
 #include <cmath>
@@ -80,7 +80,7 @@ namespace Ref {
       this->tlmWrite_SignalGen_Output(0);
       return;
     }
-    
+
 
     if(this->RUNNING){
 
@@ -142,7 +142,7 @@ namespace Ref {
 
 
     }
-  
+
 
   void SignalGen :: SignalGen_Settings_cmdHandler(
         FwOpcodeType opCode, /*!< The opcode*/

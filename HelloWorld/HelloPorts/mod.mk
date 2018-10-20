@@ -1,10 +1,6 @@
 SRC = 	HelloPortAi.xml \
-		HelloBackPortAi.xml \
-		HelloBackPortAc.cpp \
-		HelloPortAc.cpp
+	HelloBackPortAi.xml 
 
-HDR = HelloBackPortAc.hpp \
-	  HelloPortAc.hpp
 
 	  
 
