@@ -268,7 +268,7 @@ void constructApp(int port_number, char* hostname) {
 	helloSender.init(10,0);
 	helloReceiver.init(10,0);
     // Connect rate groups to rate group driver
-    constructRefArchitecture();
+    constructHelloWorldArchitecture();
 
     /* Register commands */
     sendBuffComp.regCommands();

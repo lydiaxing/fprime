@@ -2,7 +2,7 @@
 #include <HelloWorld/Top/Components.hpp>
 
 //Set base id section
-void setRefIds(void){
+void setHelloWorldIds(void){
 	fatalHandler.setIdBase(1);
 	rateGroup1Comp.setIdBase(21);
 	pingRcvr.setIdBase(41);
@@ -38,8 +38,8 @@ void setRefIds(void){
 
 
 
-void constructRefArchitecture(void) {  
-	setRefIds();
+void constructHelloWorldArchitecture(void) {  
+	setHelloWorldIds();
 
     // Port connections
     //None

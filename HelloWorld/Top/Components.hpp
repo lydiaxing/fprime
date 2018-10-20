@@ -1,6 +1,6 @@
 #ifndef __LITS_COMPONENTS_HEADER__
 #define __LITS_COMPONENTS_HEADER__
-void constructRefArchitecture(void);
+void constructHelloWorldArchitecture(void);
 void exitTasks(void);
 
 #include <Svc/ActiveRateGroup/ActiveRateGroupImpl.hpp>

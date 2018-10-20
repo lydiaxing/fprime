@@ -63,7 +63,7 @@ def main(argv=None):
     time.sleep(2)
     
     # run Gse GUI
-    GUI_args = [python_bin,"%s/Gse/bin/gse.py"%build_root,"--port","%d"%used_port,"--dictionary","%s/Gse/generated/Ref"%build_root,"--connect","--addr",addr,"-L","%s/Ref/logs"%build_root]
+    GUI_args = [python_bin,"%s/Gse/bin/gse.py"%build_root,"--port","%d"%used_port,"--dictionary","%s/Gse/generated/HelloWorld"%build_root,"--connect","--addr",addr,"-L","%s/Ref/logs"%build_root]
     #print ("GUI: %s"%" ".join(GUI_args))
     GUI = subprocess.Popen(GUI_args)
     

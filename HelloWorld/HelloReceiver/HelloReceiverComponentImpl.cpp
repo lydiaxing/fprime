@@ -18,7 +18,7 @@
 // ====================================================================== 
 
 
-#include <HelloWorld/HelloReceiver/HelloReceiverComponentImpl.hpp>
+#include "HelloWorld/HelloReceiver/HelloReceiverComponentImpl.hpp"
 #include "Fw/Types/BasicTypes.hpp"
 
 namespace HelloWorld {

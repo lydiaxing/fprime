@@ -77,12 +77,12 @@ void dumpobj(const char* objName);
 
 void setRef_Ids(void);
 
-void RefInit(void);
+void HelloWorldInit(void);
 
-void RefStart(void);
+void HelloWorldStart(void);
 
-void RefRegister(void);
+void HelloWorldRegister(void);
 
-void constructRefArchitecture(void);
+void constructHelloWorldArchitecture(void);
 
 void exitTasks(void) ;
