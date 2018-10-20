@@ -115,10 +115,12 @@ HELLOWORLD_MODULES := \
 	HelloWorld/SendBuffApp \
 	HelloWorld/SignalGen \
 	HelloWorld/PingReceiver \
-	HelloWorld/HelloPorts \
-	HelloWorld/HelloTypes \
 	HelloWorld/HelloSender \
-	HelloWorld/HelloReceiver
+	HelloWorld/HelloReceiver \
+	HelloWorld/HelloTypes \
+	HelloWorld/HelloPorts
+	
+	
 	
 HelloWorld_MODULES := \
 	\
@@ -235,7 +237,7 @@ OTHER_MODULES := \
 
 # List deployments
 
-DEPLOYMENTS := Ref acdev RPI HelloWorld
+DEPLOYMENTS := acdev HelloWorld Ref
 
 # Location of ground/gse software. Autocoded dictionary elements are copied here.
 GDS_MODULE := Gse
