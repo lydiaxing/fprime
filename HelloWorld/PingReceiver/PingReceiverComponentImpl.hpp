@@ -20,7 +20,7 @@
 #ifndef PingReceiver_HPP
 #define PingReceiver_HPP
 
-#include "Ref/PingReceiver/PingReceiverComponentAc.hpp"
+#include "HelloWorld/PingReceiver/PingReceiverComponentAc.hpp"
 
 namespace Ref {
 

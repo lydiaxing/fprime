@@ -1,4 +1,4 @@
-#include <Ref/SendBuffApp/SendBuffComponentImpl.hpp>
+#include <HelloWorld/SendBuffApp/SendBuffComponentImpl.hpp>
 #include <Fw/Types/BasicTypes.hpp>
 #include <Fw/Types/Assert.hpp>
 #include <Os/Log.hpp>

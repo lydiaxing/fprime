@@ -1,7 +1,7 @@
 #ifndef REF_LPS_ATM_IMPL_HPP
 #define REF_LPS_ATM_IMPL_HPP
 
-#include <Ref/SendBuffApp/SendBuffComponentAc.hpp>
+#include <HelloWorld/SendBuffApp/SendBuffComponentAc.hpp>
 
 namespace Ref {
 

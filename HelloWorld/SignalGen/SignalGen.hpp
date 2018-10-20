@@ -24,7 +24,7 @@
 #include <Fw/Types/ConstByteArray.hpp>
 #include <Os/File.hpp>
 #include <Os/ValidateFile.hpp>
-#include <Ref/SignalGen/SignalGenComponentAc.hpp>
+#include <HelloWorld/SignalGen/SignalGenComponentAc.hpp>
 #include <cmath>
 
 namespace Ref {

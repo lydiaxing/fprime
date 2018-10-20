@@ -18,7 +18,7 @@
 // ====================================================================== 
 
 
-#include <Ref/PingReceiver/PingReceiverComponentImpl.hpp>
+#include <HelloWorld/PingReceiver/PingReceiverComponentImpl.hpp>
 #include "Fw/Types/BasicTypes.hpp"
 
 namespace Ref {

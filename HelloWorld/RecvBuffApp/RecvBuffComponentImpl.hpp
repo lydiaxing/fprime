@@ -1,7 +1,7 @@
 #ifndef REF_LPR_ATM_IMPL_HPP
 #define REF_LPR_ATM_IMPL_HPP
 
-#include <Ref/RecvBuffApp/RecvBuffComponentAc.hpp>
+#include <HelloWorld/RecvBuffApp/RecvBuffComponentAc.hpp>
 
 namespace Ref {
 
