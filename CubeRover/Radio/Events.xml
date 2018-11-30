@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="file:../xml/ISF_Component_Schema.rnc" type="compact"?>
+
+<!--====================================================================== 
+
+  CubeRover/Radio/Events.xml
+
+======================================================================-->
+
+<events>
+
+  <event
+    id="0"
+    name="Command_check_fail"
+    severity="WARNING_HI"
+    format_string="Error: command verification failed"
+  >
+    <comment>A notification on negative result of radio verifying command with system</comment>
+  </event>
+
+  <event
+    id="1"
+    name="Orientation_sent"
+    severity="ACTIVITY_HI"
+    format_string="Success: orientation sent over to base station"
+  >
+    <comment>A notification on successful delivery of orientation</comment>
+  </event>
+
+  <event
+    id="2"
+    name="Temp_over_sent"
+    severity="ACTIVITY_HI"
+    format_string="Success: temp_over sent over to base station"
+  >
+    <comment>A notification on successful delivery of temp_over</comment>
+  </event>
+
+</events>

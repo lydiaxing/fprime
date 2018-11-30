@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="file:../xml/ISF_Component_Schema.rnc" type="compact"?>
+
+<!--====================================================================== 
+
+  CubeRover/Sensor/Commands.xml
+
+======================================================================-->
+
+<commands>
+
+  <command
+    kind="async"
+    opcode="0"
+    mnemonic="Check_orientation_threshold"
+  >
+    <comment>A command to check orientation threshold.</comment>
+  </command>
+
+  <command
+    kind="async"
+    opcode="0"
+    mnemonic="Send_current_orientation"
+  >
+    <comment>A command to send orientation.</comment>
+  </command>
+
+
+</commands>

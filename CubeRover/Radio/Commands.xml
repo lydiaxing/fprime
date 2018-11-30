@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="file:../xml/ISF_Component_Schema.rnc" type="compact"?>
+
+<!--====================================================================== 
+
+  CubeRover/Radio/Commands.xml
+
+======================================================================-->
+
+<commands>
+
+  <command
+    kind="async"
+    opcode="0"
+    mnemonic="radio_verify_command"
+  >
+    <comment>A command to verify command from system task.</comment>
+  </command>
+
+  <command
+    kind="async"
+    opcode="0"
+    mnemonic="send_orientation"
+  >
+    <comment>A command to send orientation over to base station.</comment>
+  </command>
+
+  <command
+    kind="async"
+    opcode="0"
+    mnemonic="send_temp_over"
+  >
+    <comment>A command to send temp_over to base station.</comment>
+  </command>
+
+</commands>

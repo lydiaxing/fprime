@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="file:../xml/ISF_Component_Schema.rnc" type="compact"?>
+
+<!--====================================================================== 
+
+  CubeRover/Radio/Telemetry
+
+======================================================================-->
+
+<telemetry>
+
+  <channel
+    id="0"
+    name="Orientation_w"
+    data_type="F32"
+    abbrev="Radio-0000"
+  >
+    <comment>w component of orientaiton</comment>
+  </channel>
+
+  <channel
+    id="1"
+    name="Orientation_x"
+    data_type="F32"
+    abbrev="Radio-0001"
+  >
+    <comment>x component of orientaiton</comment>
+  </channel>
+
+  <channel
+    id="2"
+    name="Orientation_y"
+    data_type="F32"
+    abbrev="Radio-0002"
+  >
+    <comment>y component of orientaiton</comment>
+  </channel>
+
+  <channel
+    id="3"
+    name="Orientation_z"
+    data_type="F32"
+    abbrev="GPS-0003"
+  >
+    <comment>z component of orientaiton</comment>
+  </channel>
+
+  <channel
+    id="4"
+    name="Temp_over"
+    data_type="F32"
+    abbrev="GPS-0004"
+  >
+    <comment>temp_over??????</comment>
+  </channel>
+
+</telemetry>
