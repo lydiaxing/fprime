@@ -139,6 +139,28 @@ HelloWorld_MODULES := \
   	$(UTILS_MODULES)
 
 
+GPS_MODULES := \
+    GpsApp/Top \
+    GpsApp/Gps
+    
+GpsApp_MODULES := \
+    \
+    $(GPS_MODULES) \
+    \
+    $(SVC_MODULES) \
+    \
+    $(DEMO_DRV_MODULES) \
+    \
+    $(FW_MODULES) \
+    \
+    $(OS_MODULES) \
+    \
+    $(CFDP_MODULES) \
+    \
+    $(UTILS_MODULES)
+
+
+
 ACDEVTEST_MODULES := \
 	Autocoders/test/active_tester \
 	Autocoders/test/app1 \
@@ -237,7 +259,7 @@ OTHER_MODULES := \
 
 # List deployments
 
-DEPLOYMENTS := acdev HelloWorld Ref
+DEPLOYMENTS := acdev GpsApp HelloWorld Ref 
 
 # Location of ground/gse software. Autocoded dictionary elements are copied here.
 GDS_MODULE := Gse

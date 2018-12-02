@@ -17,7 +17,7 @@
 #include <fioLib.h>
 #include <taskLib.h>
 #include <sysLib.h>
-#elif defined TGT_OS_TYPE_LINUX || TGT_OS_TYPE_DARWIN || TGT_OS_TYPE_RTAI
+#elif defined TGT_OS_TYPE_LINUX || TGT_OS_TYPE_DARWIN || TGT_OS_TYPE_RTAI || TGT_OS_TYPE_FREERTOS_SIM
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>

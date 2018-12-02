@@ -1,4 +1,4 @@
-#include <FreeRTOS/Queue.hpp>
+#include <Os/Queue.hpp>
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
@@ -13,6 +13,7 @@ const int QUEUE_BLOCK_DURATION = 1000;
 
 namespace Os {
 
+
     Queue::Queue() :
         m_handle(-1) {
     }
@@ -23,8 +24,12 @@ namespace Os {
         this->m_name = "/QP_";
         this->m_name += name;
 
+        #ifdef configUSE_TRACE_FACILITY
+            vTraceSetQueueName(queueHandle, this->m_name.toChar());
+        #endif
+
         QueueHandle_t queueHandle;
-        queueHandle = xQueueCreate(depth, msgSize);
+        queueHandle = xQueueCreate(depth, msgSize + sizeof(msgSize));
 
         if (NULL == queueHandle) {
           return QUEUE_UNINITIALIZED;
@@ -35,13 +40,21 @@ namespace Os {
 
         Queue::s_numQueues++;
 
+        msg_buffer = (U8 *) pvPortMalloc(msgSize + sizeof(msgSize));
+
         return QUEUE_OK;
     }
 
-    Queue::~Queue() {
-        if (this->m_handle != NULL)
+    Queue::~Queue()
+    {
+        if (this->m_handle)
         {
             vQueueDelete((QueueHandle_t) this->m_handle);
+        }
+
+        if (msg_buffer)
+        {
+            vPortFree(msg_buffer);
         }
     }
 
@@ -59,19 +72,23 @@ namespace Os {
           return QUEUE_EMPTY_BUFFER;
         }
 
-        // if (size != getMsgSize()) return QUEUE_SIZE_MISMATCH;
+        msg_buffer[0] = size;
+        memcpy(msg_buffer + sizeof(size), buffer, size);
 
+        // if (size != getMsgSize()) return QUEUE_SIZE_MISMATCH
         if (block == QUEUE_NONBLOCKING)
         {
-            if (xQueueSendToBack(queueHandle, (void*) buffer, (TickType_t)0) == errQUEUE_FULL)
+            if (xQueueSendToBack(queueHandle, (void*) msg_buffer, (TickType_t)0) == errQUEUE_FULL)
             {
+                // printf("QUEUE IS FULL\n");
                 return QUEUE_FULL;
             }
         }
         else
         {
-            if (xQueueSendToBack(queueHandle, (void*) buffer, (TickType_t)QUEUE_BLOCK_DURATION) != pdPASS)
+            if (xQueueSendToBack(queueHandle, (void*) msg_buffer, (TickType_t) portMAX_DELAY ) != pdPASS)
             {
+                // printf("QUEUE IS ERROR\n");
                 return QUEUE_UNKNOWN_ERROR;
             }
         }
@@ -98,20 +115,23 @@ namespace Os {
 
         if (block == QUEUE_NONBLOCKING)
         {
-            if (xQueueReceive(queueHandle, (void*) buffer, (TickType_t) 0) == errQUEUE_EMPTY)
+            if (xQueueReceive(queueHandle, (void*) msg_buffer, (TickType_t) 0) == errQUEUE_EMPTY)
             {
                 return QUEUE_NO_MORE_MSGS;
             }
         }
         else
         {
-            if (xQueueReceive(queueHandle, (void*) buffer, (TickType_t) QUEUE_BLOCK_DURATION) == errQUEUE_EMPTY)
+            if (xQueueReceive(queueHandle, (void*) msg_buffer, (TickType_t) portMAX_DELAY) == errQUEUE_EMPTY)
             {
                 return QUEUE_NO_MORE_MSGS;
             }
         }
 
-        actualSize = (NATIVE_INT_TYPE) this->getMsgSize();
+
+        actualSize = msg_buffer[0];
+        memcpy(buffer, msg_buffer + sizeof(actualSize), actualSize);
+
 
         return QUEUE_OK;
     }
@@ -142,4 +162,3 @@ namespace Os {
     }
 
 }
-

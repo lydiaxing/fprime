@@ -265,7 +265,19 @@ void qtest_block_receive(void *p) {
     printf("Testing successful receive after send...\n");
     stat = testQueue->send(sendBuff, 0, Os::Queue::QUEUE_NONBLOCKING);
     FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
-    stat = testQueue->receive(recvBuff, prio, Os::Queue::QUEUE_BLOCKING);
+    // stat = testQueue->receive(recvBuff, prio, Os::Queue::QUEUE_BLOCKING);
+
+        U8* msgBuff = recvBuff.getBuffAddr();
+        NATIVE_INT_TYPE buffCapacity = recvBuff.getBuffCapacity();
+        NATIVE_INT_TYPE recvSize = 0;
+
+        stat = testQueue->receive(msgBuff, buffCapacity, recvSize, prio, Os::Queue::QUEUE_BLOCKING);
+
+        if (Os::Queue::QUEUE_OK == stat) {
+            recvBuff.setBuffLen(recvSize);
+            }
+
+
     FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
     compareBuffers(sendBuff, recvBuff);
     printf("Passed.\n");
@@ -516,12 +528,14 @@ void *run_task(void *ptr)
   MyTestSerializedBuffer recvBuff;
   MyTestSerializedBuffer sendBuff = getSendBuffer(0);
   for( NATIVE_INT_TYPE ii = 0; ii < numIterations; ii++ ) {
+    printf("%d START: There are: %d messages\n", ii, testQueue->getNumMsgs());
     stat = testQueue->receive(recvBuff, prio, Os::Queue::QUEUE_BLOCKING);
     FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
     stat = testQueue->receive(recvBuff, prio, Os::Queue::QUEUE_BLOCKING);
     FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
     stat = testQueue->receive(recvBuff, prio, Os::Queue::QUEUE_BLOCKING);
     FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
+    printf("%d Recieved 3 elements. There are: %d messages\n", ii, testQueue->getNumMsgs());
     stat = testQueue->send(sendBuff, ii%4, Os::Queue::QUEUE_NONBLOCKING);
     FW_ASSERT(stat == Os::Queue::QUEUE_OK, stat);
     stat = testQueue->send(sendBuff, ii%4, Os::Queue::QUEUE_NONBLOCKING);
@@ -569,7 +583,20 @@ void qtest_concurrent(void *p) {
     (void)gettimeofday(&stime,0);
 #endif
 
-#if defined TGT_OS_TYPE_LINUX || TGT_OS_TYPE_DARWIN
+#if TGT_OS_TYPE_FREERTOS_SIM
+
+    TaskHandle_t xHandle[NUM_THREADS];
+
+    /* Create the task. */
+    for(U32 ii = 0; ii < NUM_THREADS; ++ii) {
+      if(xTaskCreate(run_task, "test threads", 200, NULL, 1, &xHandle[ii]) != pdPass) {
+        FW_ASSERT(0)
+;      }
+    }
+
+    vTaskStartScheduler();
+
+#elif defined TGT_OS_TYPE_LINUX || TGT_OS_TYPE_DARWIN
     pthread_t thread[NUM_THREADS];
 
     for(U32 ii = 0; ii < NUM_THREADS; ++ii) {

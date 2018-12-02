@@ -93,7 +93,7 @@ extern "C" {
 #define configMINIMAL_STACK_SIZE				( ( unsigned short ) 50 ) /* In this simulated case, the stack only has to hold one small structure as the real stack is part of the win32 thread. */
 #define configTOTAL_HEAP_SIZE					( ( size_t ) ( 1024 * 1024 ) )
 #define configMAX_TASK_NAME_LEN					( 12 )
-#define configUSE_TRACE_FACILITY				1
+#define configUSE_TRACE_FACILITY				0
 #define configUSE_16_BIT_TICKS					0
 #define configIDLE_SHOULD_YIELD					1
 #define configUSE_MUTEXES						1
@@ -116,7 +116,7 @@ extern "C" {
 
 /* Run time stats gathering configuration options. */
 unsigned long ulGetRunTimeCounterValue( void ); /* Prototype of function that returns run time counter. */
-#define configGENERATE_RUN_TIME_STATS			1
+#define configGENERATE_RUN_TIME_STATS			0
 /* Make use of times(man 2) to gather run-time statistics on the tasks. */
 extern void vPortFindTicksPerSecond( void );
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() vPortFindTicksPerSecond()
@@ -158,9 +158,11 @@ extern void vAssertCalled( unsigned long ulLine, const char * const pcFileName )
 #define configASSERT( x ) if( ( x ) == 0 ) vAssertCalled( __LINE__, __FILE__ )
 
 /* Include the FreeRTOS+Trace FreeRTOS trace macro definitions. */
-#define TRACE_ENTER_CRITICAL_SECTION() portENTER_CRITICAL()
-#define TRACE_EXIT_CRITICAL_SECTION() portEXIT_CRITICAL()
-/*#include "trcKernelPort.h" */
+#ifdef configUSE_TRACE_FACILITY
+    #define TRACE_ENTER_CRITICAL_SECTION() portENTER_CRITICAL()
+    #define TRACE_EXIT_CRITICAL_SECTION() portEXIT_CRITICAL()
+    #include "TraceRecorder/include/trcRecorder.h"
+#endif
 
 #ifdef __cplusplus
 }

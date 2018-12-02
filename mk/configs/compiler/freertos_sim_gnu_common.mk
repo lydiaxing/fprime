@@ -27,7 +27,7 @@ LOAD_SIZE := $(SIZE)
 
 LINK_LIBS := -ldl -lpthread -lm -lrt -lutil
 
-OPT_SPEED := -Os
+OPT_SPEED := -O3
 DEBUG := -g3
 
 FREERTOS_SIM_GNU_CFLAGS :=  $(FREERTOS_SIM_FLAGS_COMMON) \
