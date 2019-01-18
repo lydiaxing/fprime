@@ -203,15 +203,15 @@ void constructApp(int port_number, char* hostname) {
     rateGroupDriverComp.init();
 
     // Initialize the rate groups
-    rateGroup1Comp.init(10,0);
+    rateGroup1Comp.init(100,0);
 
-    rateGroup2Comp.init(10,1);
+    rateGroup2Comp.init(100,1);
 
-    rateGroup3Comp.init(10,2);
+    rateGroup3Comp.init(100,2);
     //GPS-- Here we initialize the component with a queue size, and instance number. The queue size governs how
     //      many waiting port calls can queue up before the system asserts, and the instance number is a unique
     //      number given to every instance of a given type.
-    gpsImpl.init(10, 1);
+    gpsImpl.init(100, 1);
 #if FW_ENABLE_TEXT_LOGGING
     textLogger.init();
 #endif
@@ -220,11 +220,11 @@ void constructApp(int port_number, char* hostname) {
 
     linuxTime.init(0);
 
-    chanTlm.init(10,0);
+    chanTlm.init(100,0);
 
     cmdDisp.init(20,0);
 
-    cmdSeq.init(10,0);
+    cmdSeq.init(100,0);
     cmdSeq.allocateBuffer(0,seqMallocator,5*1024);
 
     prmDb.init(10,0);
@@ -304,8 +304,8 @@ void run1cycle(void) {
     Svc::TimerVal timer;
     timer.take();
     rateGroupDriverComp.get_CycleIn_InputPort(0)->invoke(timer);
-    Os::Task::TaskStatus delayStat = Os::Task::delay(1000);
-    FW_ASSERT(Os::Task::TASK_OK == delayStat,delayStat);
+    // Os::Task::TaskStatus delayStat = Os::Task::delay(1000);
+    // FW_ASSERT(Os::Task::TASK_OK == delayStat,delayStat);
 }
 
 
@@ -350,18 +350,13 @@ static void sighandler(int signum) {
 	terminate = 1;
 }
 
+// Timer function code for providing cycles to the active rate group driver
 void vTimerFunction(void * pvParameters)
 {
     static int cycle = 0;
 
-    /* Enter an infinite loop to perform the task processing. */
-    while(1)
-    {
-        /* Task code goes here. */
-       (void) printf("Cycle %d\n",cycle);
-        runcycles(1);
-        cycle++;
-    }
+    runcycles(1);
+    cycle++;
 }
 
 
@@ -395,10 +390,6 @@ int main(int argc, char* argv[]) {
 
 	(void) printf("Hit Ctrl-C to quit\n");
 
-#ifdef TGT_OS_TYPE_FREERTOS_SIM && configUSE_TRACE_FACILITY
-    vTraceEnable(TRC_START);
-#endif
-
 
     constructApp(port_number, hostname);
 
@@ -406,23 +397,9 @@ int main(int argc, char* argv[]) {
 #ifdef TGT_OS_TYPE_FREERTOS_SIM
     (void) printf("FreeRTOS\n");
 
-
-    TimerHandle_t xAutoReloadTimer = xTimerCreate( "AutoReload", pdMS_TO_TICKS(1000), pdTRUE, 0, vTimerFunction);
-
+    // Create FreeRTOS timer that will provide 500ms cycles to the active rate group driver
+    TimerHandle_t xAutoReloadTimer = xTimerCreate( "AutoReload", pdMS_TO_TICKS(500), pdTRUE, 0, vTimerFunction);
     if (xTimerStart(xAutoReloadTimer, 0) != pdPASS) exit(1);
-
-    // TaskHandle_t xHandle;
-    // /* Create the task. */
-    // if( xTaskCreate(vTimerFunction, "Timer", 200, NULL, 1000, &xHandle) != pdPASS)
-    // {
-    //     /* The task could not be created because there was insufficient heap memory remaining.
-    //      * If heap_1.c, heap_2.c, or heap_4.c are included in the project, then this situation
-    //      * can be trapped using the vApplicationMallocFailedHook() callback (or 'hook')  function,
-    //      * and the amount of FreeRTOS heap memory that remains unallocated can be queried using the
-    //      * xPortGetFreeHeapSize() API function.
-    //      */
-    //     exit(1);
-    // }
 
     // Start FreeRTOS Scheduler
     vTaskStartScheduler();

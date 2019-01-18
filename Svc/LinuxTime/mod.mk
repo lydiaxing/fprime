@@ -31,7 +31,7 @@ SRC_RASPIAN = LinuxTimeImpl.cpp
 HDR = LinuxTimeImpl.hpp
 
 # CHANGE THIS TO DARWIN FOR MAC USERS
-SRC_FREERTOS_SIM = LinuxTimeImpl.cpp
+SRC_FREERTOS_SIM = FreeRTOSTimeImpl.cpp
 
 SUBDIRS = test
 

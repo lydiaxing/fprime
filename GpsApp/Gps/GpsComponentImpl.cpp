@@ -72,13 +72,7 @@ namespace GpsApp {
       //Open the GPS, and configure it for a raw-socket in read-only mode
       m_fh = open(UART_FILE_PATH, O_RDONLY);
       if (m_fh < 0) {
-          std::cout << "Hello World!" << std::endl;
-
-          tlmWrite_Gps_Latitude(1.337);
-          tlmWrite_Gps_Longitude(13.37);
-          tlmWrite_Gps_Altitude(133.7);
-          tlmWrite_Gps_Count(1337);
-          // std::cout << "[ERROR] Failed to open file: " << UART_FILE_PATH << std::endl;
+          std::cout << "[ERROR] Failed to open file: " << UART_FILE_PATH << std::endl;
           return;
       }
       //Setup the struct for termios configuration

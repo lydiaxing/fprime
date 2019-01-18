@@ -57,6 +57,22 @@ SRC_FREERTOS_SIM =  FreeRTOS/assert.c \
                     # FreeRTOS/TraceRecorder/trcStreamingRecorder.c \
                     # FreeRTOS/TraceRecorder/trcSnapshotRecorder.c \
 
+SRC_CORTEX_R4 :=    $(shell find ../R4/HAL/source -name '*.c') \
+					$(shell find ../R4/HAL/source -name '*.asm') \
+                    FreeRTOS/Queue.cpp \
+                    FreeRTOS/Mutex.cpp \
+                    FreeRTOS/Task.cpp \
+                    FreeRTOS/IntervalTimer.cpp \
+                    FreeRTOS/InterruptLock.cpp \
+                    FreeRTOS/WatchdogTimer.cpp \
+                    LogPrintf.cpp \
+                    Linux/FileSystem.cpp \
+                    Linux/File.cpp
+                    # FreeRTOS/TraceRecorder/trcKernelPort.c \
+                    # FreeRTOS/TraceRecorder/streamports/File/trcStreamingPort.c \
+                    # FreeRTOS/TraceRecorder/trcStreamingRecorder.c \
+                    # FreeRTOS/TraceRecorder/trcSnapshotRecorder.c \
+
 SRC_LINUX=      Pthreads/Queue.cpp \
                 Pthreads/BufferQueueCommon.cpp \
                 Pthreads/PriorityBufferQueue.cpp \
