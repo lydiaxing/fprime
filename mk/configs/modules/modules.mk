@@ -259,7 +259,7 @@ OTHER_MODULES := \
 
 # List deployments
 
-DEPLOYMENTS := acdev GpsApp HelloWorld Ref 
+DEPLOYMENTS := acdev GpsApp Ref #HelloWorld Ref 
 
 # Location of ground/gse software. Autocoded dictionary elements are copied here.
 GDS_MODULE := Gse

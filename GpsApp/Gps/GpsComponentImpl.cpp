@@ -72,7 +72,8 @@ namespace GpsApp {
       //Open the GPS, and configure it for a raw-socket in read-only mode
       m_fh = open(UART_FILE_PATH, O_RDONLY);
       if (m_fh < 0) {
-          std::cout << "[ERROR] Failed to open file: " << UART_FILE_PATH << std::endl;
+          //std::cout << "[ERROR] Failed to open file: " << UART_FILE_PATH << std::endl;
+          std::cout << "LOLOLOL" << std::endl;
           return;
       }
       //Setup the struct for termios configuration
