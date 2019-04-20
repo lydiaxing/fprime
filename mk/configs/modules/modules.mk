@@ -144,16 +144,16 @@ GPS_MODULES := \
     GpsApp/Gps
     
 GpsApp_MODULES := \
-    \
+	\
     $(GPS_MODULES) \
+	\
+    $(OS_MODULES) \
     \
     $(SVC_MODULES) \
     \
     $(DEMO_DRV_MODULES) \
     \
     $(FW_MODULES) \
-    \
-    $(OS_MODULES) \
     \
     $(CFDP_MODULES) \
     \

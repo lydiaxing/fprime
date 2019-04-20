@@ -1,2 +1,2 @@
-COMPILER := freertos_sim_gnu_common
-TARGET := freertos
+COMPILER := ccs7.0-debug-opt
+TARGET := cortex_r4

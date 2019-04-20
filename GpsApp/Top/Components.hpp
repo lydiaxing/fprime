@@ -3,9 +3,9 @@
 void constructRefArchitecture(void);
 void exitTasks(void);
 
-#include <Svc/ActiveRateGroup/ActiveRateGroupImpl.hpp>
+#include <sys/cdefs.h>
 #include <Svc/RateGroupDriver/RateGroupDriverImpl.hpp>
-
+#include <Svc/ActiveRateGroup/ActiveRateGroupImpl.hpp>
 #include <Svc/CmdDispatcher/CommandDispatcherImpl.hpp>
 #include <Svc/CmdSequencer/CmdSequencerImpl.hpp>
 #include <Svc/PassiveConsoleTextLogger/ConsoleTextLoggerImpl.hpp>

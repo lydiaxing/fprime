@@ -1,6 +1,8 @@
-#include <Components.hpp>
-
-
+#include <sys/cdefs.h>
+#include <FreeRTOS.h>
+#include <os_task.h>
+#include <os_timer.h>
+#include <GpsApp/Top/Components.hpp>
 #include <Fw/Types/Assert.hpp>
 #include <GpsApp/Top/TargetInit.hpp>
 #include <Os/Task.hpp>
@@ -8,17 +10,20 @@
 #include <Fw/Types/MallocAllocator.hpp>
 
 
-#if defined TGT_OS_TYPE_LINUX || TGT_OS_TYPE_DARWIN || TGT_OS_TYPE_FREERTOS_SIM
+
+#if defined TGT_OS_TYPE_LINUX || TGT_OS_TYPE_DARWIN || TGT_OS_TYPE_FREERTOS_SIM || TGT_OS_TYPE_FREERTOS_REAL
 #include <getopt.h>
 #include <stdlib.h>
 #include <ctype.h>
 #endif
 
 
-#if TGT_OS_TYPE_FREERTOS_SIM
+
+
+#if TGT_OS_TYPE_FREERTOS_SIM || TGT_OS_TYPE_FREERTOS_REAL
 #include <FreeRTOS.h>
-#include <task.h>
-#include <timers.h>
+#include <os_task.h>
+#include <os_timer.h>
 #endif
 
 
@@ -293,7 +298,7 @@ void constructApp(int port_number, char* hostname) {
     // Initialize socket server
     sockGndIf.startSocketTask(100, port_number, hostname);
 
-    printf("HELLO\n");
+    //printf("HELLO\n");
 
 }
 //GPS-- Given the application's lack of a specific timing element, we
@@ -337,7 +342,7 @@ void exitTasks(void) {
 }
 
 void print_usage() {
-	(void) printf("Usage: ./Ref [options]\n-p\tport_number\n-a\thostname/IP address\n");
+	//(void) printf("Usage: ./Ref [options]\n-p\tport_number\n-a\thostname/IP address\n");
 }
 
 
@@ -368,12 +373,11 @@ int main(int argc, char* argv[]) {
 	option = 0;
 	hostname = NULL;
 
-	while ((option = getopt(argc, argv, "hp:a:")) != -1){
+	while (false /*(option = getopt(argc, argv, "hp:a:")) != -1*/){
 		switch(option) {
 			case 'h':
 				print_usage();
 				return 0;
-				break;
 			case 'p':
 				port_number = atoi(optarg);
 				break;
@@ -388,14 +392,14 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	(void) printf("Hit Ctrl-C to quit\n");
+	//(void) printf("Hit Ctrl-C to quit\n");
 
 
     constructApp(port_number, hostname);
 
 
-#ifdef TGT_OS_TYPE_FREERTOS_SIM
-    (void) printf("FreeRTOS\n");
+#ifdef TGT_OS_TYPE_FREERTOS_SIM || TGT_OS_TYPE_FREERTOS_REAL
+    //(void) printf("FreeRTOS\n");
 
     // Create FreeRTOS timer that will provide 500ms cycles to the active rate group driver
     TimerHandle_t xAutoReloadTimer = xTimerCreate( "AutoReload", pdMS_TO_TICKS(500), pdTRUE, 0, vTimerFunction);
@@ -405,6 +409,7 @@ int main(int argc, char* argv[]) {
     vTaskStartScheduler();
 #endif
 
+
     //dumparch();
 
     signal(SIGINT,sighandler);
@@ -413,7 +418,7 @@ int main(int argc, char* argv[]) {
     int cycle = 0;
 
     while (!terminate) {
-       (void) printf("Cycle %d\n",cycle);
+        //(void) printf("Cycle %d\n",cycle);
         runcycles(1);
         cycle++;
     }
@@ -421,10 +426,10 @@ int main(int argc, char* argv[]) {
     // stop tasks
     exitTasks();
     // Give time for threads to exit
-    (void) printf("Waiting for threads...\n");
+    //(void) printf("Waiting for threads...\n");
     Os::Task::delay(1000);
 
-    (void) printf("Exiting...\n");
+    //(void) printf("Exiting...\n");
 
     return 0;
 }

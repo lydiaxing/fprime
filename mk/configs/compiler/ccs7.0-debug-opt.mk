@@ -15,5 +15,5 @@ CXXFLAGS := $(DEBUG) \
 			$(CCS_R4_COMMON_INCLUDES)
 
 
-COMPILER := rm42-debug-opt-ccs7.0
+COMPILER := hercules-debug-opt-ccs7.0
 

@@ -20,5 +20,5 @@ CXXFLAGS := $(DEBUG) \
 			#$(UT_FLAGS)
 
 
-COMPILER := rm42-debug-opt-ccs7.0
+COMPILER := hercules-debug-opt-ccs7.0
 
